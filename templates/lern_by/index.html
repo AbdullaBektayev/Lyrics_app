@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"><!-- CDN of Bootstrap -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script><!-- CDN of Bootstrap -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script><!-- CDN of Bootstrap -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script><!-- CDN of Bootstrap -->
+
+    <title>Song place</title>
+</head>
+<body>
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm"><!-- Nav Bar -->
+        <h5 class="my-0 mr-md-auto font-weight-normal">Abdulla Pro</h5>
+        <nav class="my-2 my-md-0 mr-md-3">
+            <a class="p-2 text-dark" href="/vocabulary">My Vocabulary</a> <!-- button for moving to Vocabulary page -->
+        </nav>
+    </div>
+
+
+<div class="row">
+    <div class="col-5 offset-1">
+        <h1>Search the song</h1>
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ form.artist }} <!-- input for artist of song -->
+            {{ form.title }}  <!-- input for title of song -->
+            <input type="submit" value="Search" class="btn btn-primary"> <!-- search button -->
+        </form>
+    </div>
+    <div class="col-5 list-grup"> <!-- container for recently song -->
+        <div class="row">
+            <div class="col-8">
+                <h1>Recently songs</h1> <!-- name of column recently song -->
+            </div>
+            <div class="col-3 offset-1">
+                <form action="delete_all" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary sm">Delete all</button> <!-- for deleting all song from recently song -->
+                </form>
+            </div>
+        </div>
+        {% for song in all_my_song %} <!-- loop for every song from database of Song -->
+            <div class="alert alert-light list-group-item list-group-item-action">
+                <div class = 'row'>
+                    <div class = 'col-11'>
+                        <h3>{{ song.title }}</h3> <!-- Song title -->
+                        <h5>{{ song.artist }}</h5> <!-- Song artist -->
+                        <form action="song/{{ song.id }}" method="post">
+                            {% csrf_token %}
+                            <input type="submit" value="see lyrics" class="btn btn-primary"> <!-- button to moving to song.html page to see lyrics of current song -->
+                        </form>
+                    </div>
+                    <form action="delete/{{ song.id }}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button> <!-- button for deleting of current song from database -->
+                    </form>
+                </div>
+            </div>
+        {% endfor %} <!-- eng of loop -->
+    </div>
+</div>
+</body>
+</html>

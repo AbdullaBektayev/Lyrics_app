@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Song</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"><!-- CDN of Bootstrap -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script><!-- CDN of Bootstrap -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script><!-- CDN of Bootstrap -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script><!-- CDN of Bootstrap -->
+
+</head>
+<body>
+
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm"><!-- Nav Bar -->
+        <h4 class="my-0 mr-md-auto font-weight-normal">{{ artist }}</h4> <!-- Arist of Song-->
+        <h4 class="my-0 mr-md-auto font-weight-normal">{{ title }}</h4><!-- Title of Song -->
+        <nav class="my-2 my-md-0 mr-md-3">
+            <a class="p-2 text-dark" href="/">Main page</a> <!-- Button for moving to main page -->
+            <a class="p-2 text-dark" href="/vocabulary">My Vocabulary</a> <!-- Button for moving to Vocabulary -->
+        </nav>
+    </div>
+
+    <div class = 'list-group px-5 text-center' >
+        {% for lyr in lyrics %} <!-- loop for every line on song-->
+            <div class="lyrics alert alert-light list-group-item list-group-item-action" id="lyrics{{ id }}">
+                <div class="row btn-group" role="group" aria-label="Basic example">
+                    {% for l in lyr %} <!-- loop for every word on line-->
+                        <form action="{{ id }}/{{ l }}" method="post">
+                            {% csrf_token %}
+                            <input type="submit" class="btn btn-light" value="{{ l }}"> <!-- button for adding word to vocabulary-->
+                        </form>
+                    {% endfor %}
+                </div>
+                <br>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

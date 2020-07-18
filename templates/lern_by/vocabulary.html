@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vocabulary</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"><!-- CDN of Bootstrap -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script><!-- CDN of Bootstrap -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script><!-- CDN of Bootstrap -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script><!-- CDN of Bootstrap -->
+
+</head>
+<body>
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm"><!-- Nav bar-->
+        <h5 class="my-0 mr-md-auto font-weight-normal">My Vocabulary</h5>
+        <nav class="my-2 my-md-0 mr-md-3">
+            <a class="p-2 text-dark" href="/">Main page</a> <!-- button for moving to main page -->
+        </nav>
+    </div>
+
+
+        <br>
+    <div class = 'list-group mx-1 px-3' > <!-- container for all word on vocabulary -->
+        <div class="row">
+            <div class="col-5 d-flex justify-content-center">
+                <h3>English</h3><!-- column of English word -->
+            </div>
+            <div class="col-5 d-flex justify-content-center">
+                <h3>Russian</h3><!-- column of Russian word -->
+            </div>
+            <div class="col-2 d-flex justify-content-center">
+                <form action="vocabulary/delete_all" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-danger">Delete all</button><!-- button for deleting all word on vocabulary -->
+                </form>
+            </div>
+        </div>
+        {% for v in vocabulary %}<!-- loop for each word in vocabulary -->
+            <div class="list-group-item list-group-item-ligh">
+                <div class = 'row '>
+                        <div class="col-5 d-flex justify-content-center" >
+                            <p>{{ v.word }}</p> <!-- English word -->
+                        </div>
+                        <div class="col-5 d-flex justify-content-center">
+                            <p>{{ v.translated_word }}</p> <!-- Translated Russian word -->
+                        </div>
+
+                        <form action="vocabulary/delete/{{ v.id }}" method="post" class="px-2">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-outline-danger">delete</button> <!-- button for deleting current word from vocabulary -->
+                        </form>
+                        <form action="vocabulary/move_to_top/{{ v.id }}" method="post" class="px-2">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-outline-primary px-3">move to top</button> <!-- button for deleting word and adding this word to begin of vocabulary  -->
+                        </form>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
